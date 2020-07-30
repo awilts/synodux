@@ -220,7 +220,7 @@ const ResetGameButton: FC<Props> = (props) => {
             .collection('lobbies')
             .doc('GeyDTo9SUstY3JhlofJj')
             .collection('players')
-            .doc('WF3gYaNnwiNxQmvZrvLmbXDWJe13')
+            .doc('OU4NoSgRUbPqLIUXgizOqWLFTd33')
             .set(host)
     }
 
