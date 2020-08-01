@@ -1,8 +1,8 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
-import { uniq } from "lodash";
-import { Player } from "./types/Player";
-import { Hint } from "./types/Hint";
+import {uniq} from "lodash";
+import {Player} from "./types/Player";
+import {Hint} from "./types/Hint";
 
 const app = admin.initializeApp();
 
@@ -29,7 +29,7 @@ export const changeVote = functions.https.onCall(async (data, context) => {
     await app
         .firestore()
         .doc(`lobbies/${lobbyId}/players/${uid}`)
-        .update({ vote: vote });
+        .update({vote: vote});
 
     return "Player voting for card...";
 });
@@ -61,7 +61,7 @@ export const startGame = functions.https.onCall(async (data, context) => {
     await app
         .firestore()
         .doc(`lobbies/${lobbyId}`)
-        .update({ currentTeam: teamWithFirstTurn });
+        .update({currentTeam: teamWithFirstTurn});
 
     return "starting game...";
 });
@@ -136,7 +136,7 @@ export const joinTeam = functions.https.onCall(async (data, context) => {
         await app
             .firestore()
             .doc(`lobbies/${lobbyId}/players/${uid}`)
-            .update({ team: team });
+            .update({team: team});
     } else {
         await app
             .firestore()
@@ -162,7 +162,7 @@ async function revealCard(cardId: string, lobbyId: string) {
     await app
         .firestore()
         .doc(`lobbies/${lobbyId}/words/${cardId}`)
-        .update({ team: team });
+        .update({team: team});
     return;
 }
 
@@ -291,7 +291,7 @@ async function resetVotes(players: Player[], lobbyId: string) {
             app
                 .firestore()
                 .doc(`lobbies/${lobbyId}/players/${player.id}`)
-                .update({ vote: "" })
+                .update({vote: ""})
         );
     });
     return Promise.all(tasks);
@@ -309,5 +309,5 @@ async function skipTurn(lobbyId: string) {
     await app
         .firestore()
         .doc(`lobbies/${lobbyId}`)
-        .update({ currentTeam: nextTeam });
+        .update({currentTeam: nextTeam});
 }

@@ -1,9 +1,11 @@
 ## Deploy
 
-gcloud deploy app
-
 react-redux with typescript:
 https://codersera.com/blog/react-redux-hooks-with-typescript/
+
+wortlisten: 
+z.B. 
+https://www.goethe.de/pro/relaunch/prf/de/A1_SD1_Wortliste_02.pdf
 
 #### DB schema design guidelines:
 

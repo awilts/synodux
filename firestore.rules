@@ -16,5 +16,8 @@ service cloud.firestore {
     match /lobbies/{lobby=**} {
       allow read, create, update, delete: if request.auth != null;
     }
+    match /wordsets/{wordset=**}{
+      allow read, create, update, delete: if request.auth != null;
+    }
   }
 }
