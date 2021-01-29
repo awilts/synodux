@@ -3,6 +3,7 @@ import { Word } from '../types/Word'
 import { Player } from '../types/Player'
 import { WordOwner } from '../types/WordOwner'
 import { Hint } from '../types/Hint'
+import { FirebaseReducer } from 'react-redux-firebase'
 
 export const initialState: State = {
     firestore: {
@@ -16,7 +17,7 @@ export const initialState: State = {
             wordOwners: [],
             hints: [],
         },
-    },
+    }
 }
 
 export type State = {
@@ -32,4 +33,5 @@ export type State = {
             wordOwners: WordOwner[]
         }
     }
+    firebase?: FirebaseReducer.Reducer
 }

@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid'
 import PlayerCard from './PlayerCard'
 import { makeStyles } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
-import { useFirebase } from 'react-redux-firebase'
+import { FirebaseReducer, useFirebase } from 'react-redux-firebase'
 import { functions } from 'firebase'
 import HintList from './HintList'
 import { Hint } from '../../types/Hint'
@@ -23,50 +23,64 @@ const useStyles = makeStyles({
     },
 })
 
-const PlayerList: FC<Props> = (props) => {
-    const players = props.players
-
+const PlayerList: FC<Props> = ({ team, players }) => {
     const hints: Hint[] = useSelector(
         (state: State) => state.firestore.ordered.hints
     )
 
     const classes = useStyles()
-    const PlayerList =
-        players &&
-        players
-            .filter((player) => player.team === props.team)
-            .map((player) => <PlayerCard player={player} key={player.id} />)
-
     const firebase = useFirebase()
     const callJoinTeam = firebase
         // @ts-ignore
         .functions()
         .httpsCallable('joinTeam')
 
-    const joinTeam = () => {
-        console.log(`joining team ${props.team}`)
+    const user: FirebaseReducer.AuthState | undefined = useSelector(
+        (state: State) => state.firebase?.auth
+    )
+
+    const isPlayerInCurrentLobby = players
+        .filter(player => player.team === team)
+        .map(player => player.id)
+        .includes(user?.uid)
+
+    const joinTeam = async () => {
+        console.log(`joining team ${team}`)
         const lobbyId = 'GeyDTo9SUstY3JhlofJj'
-        callJoinTeam({ team: props.team, lobbyId }).then(function (
-            result: functions.HttpsCallableResult
-        ) {
-            // Read result of the Cloud Function.
+        try {
+            const result: functions.HttpsCallableResult = await callJoinTeam({
+                team: team,
+                lobbyId,
+            })
+
             const sanitizedMessage = result.data
-            // ...
             console.log(sanitizedMessage)
-        })
+        } catch (err) {
+            console.log('BAD', err)
+        }
     }
 
     return (
         <Grid item xs={2}>
             <div className={classes.root}>
                 <Grid container spacing={1}>
-                    <h3>Team {props.team}</h3>
-                    {PlayerList}
+                    <h3>Team {team}</h3>
+                    {players &&
+                        players
+                            .filter(player => player.team === team)
+                            .map(player => (
+                                <PlayerCard player={player} key={player.id} />
+                            ))}
                 </Grid>
-                <Button onClick={joinTeam} variant="contained" color="primary">
+                <Button
+                    onClick={joinTeam}
+                    variant="contained"
+                    color="primary"
+                    disabled={isPlayerInCurrentLobby}
+                >
                     Join Team
                 </Button>
-                <HintList hints={hints} team={props.team} />
+                <HintList hints={hints} team={team} />
             </div>
         </Grid>
     )
