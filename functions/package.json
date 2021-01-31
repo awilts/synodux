@@ -5,14 +5,14 @@
     "build": "tsc",
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
-    "start": "npm run shell",
-    "start:all": "tsc -w | firebase emulators:start --import ./initial-data",
+    "start:shell": "npm run shell",
+    "start": "tsc -w | firebase emulators:start --import ./initial-data",
     "emulators": "firebase emulators:start",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log"
   },
   "engines": {
-    "node": "10"
+    "node": "14"
   },
   "main": "lib/index.js",
   "dependencies": {

@@ -15,7 +15,7 @@ import {
 import { createFirestoreInstance, firestoreReducer } from 'redux-firestore'
 import { initialState } from './store/state'
 import CodeguideGame from './components/codeguide/CodeguideGame'
-import MyAppBar from './components/MyAppBar'
+import { PlayerListContextProvider } from './components/PlayerListContextProvider'
 
 const conf = require('./devlocal').conf
 const fbConfig = {
@@ -70,9 +70,10 @@ const App: FC = () => {
             <Provider store={store}>
                 <ReactReduxFirebaseProvider {...rrfProps}>
                     <Authentication>
-                        <MyAppBar />
-                        {showItems ? <ItemOverview /> : <div />}
-                        {showCodeguide ? <CodeguideGame /> : <div />}
+                        <PlayerListContextProvider>
+                            {showItems ? <ItemOverview /> : <div />}
+                            {showCodeguide ? <CodeguideGame /> : <div />}
+                        </PlayerListContextProvider>
                     </Authentication>
                 </ReactReduxFirebaseProvider>
             </Provider>

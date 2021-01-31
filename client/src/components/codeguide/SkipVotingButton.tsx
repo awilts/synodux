@@ -1,10 +1,11 @@
 import React, { FC } from 'react'
 import { Button } from '@material-ui/core'
 import { useFirebase } from 'react-redux-firebase'
-import { functions } from 'firebase'
 import { Lobby } from '../../types/Lobby'
 import { useSelector } from 'react-redux'
 import { State } from '../../store/state'
+import firebase from 'firebase/app'
+import 'firebase/functions'
 
 const SkipVotingButton: FC = () => {
     const firebase = useFirebase()
@@ -20,7 +21,7 @@ const SkipVotingButton: FC = () => {
             .functions()
             .httpsCallable('forceAdvanceGame')
         forceAdvanceGameFunction({ lobbyId: lobby.id }).then(function (
-            result: functions.HttpsCallableResult
+            result: firebase.functions.HttpsCallableResult
         ) {
             const sanitizedMessage = result.data
             console.log(sanitizedMessage)

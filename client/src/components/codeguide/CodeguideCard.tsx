@@ -10,7 +10,8 @@ import { State } from '../../store/state'
 import { useFirebase } from 'react-redux-firebase'
 import { Player } from '../../types/Player'
 import { AvatarBar } from './AvatarBar'
-import { functions } from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/functions'
 
 type Props = {
     word: Word
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
     })
 )
-const CodeguideCard: FC<Props> = (props) => {
+const CodeguideCard: FC<Props> = props => {
     const classes = useStyles()
 
     const firebase = useFirebase()
@@ -45,7 +46,7 @@ const CodeguideCard: FC<Props> = (props) => {
         console.log({ word })
         console.log(`voting for card ${word.text}`)
         changeVote({ vote: word.id, lobbyId }).then(function (
-            result: functions.HttpsCallableResult
+            result: firebase.functions.HttpsCallableResult
         ) {
             // Read result of the Cloud Function.
             const sanitizedMessage = result.data
@@ -59,9 +60,7 @@ const CodeguideCard: FC<Props> = (props) => {
     )
     const word = props.word
 
-    const playersOnThisCard = players.filter(
-        (player) => player.vote === word.id
-    )
+    const playersOnThisCard = players.filter(player => player.vote === word.id)
 
     const color = word.team
 

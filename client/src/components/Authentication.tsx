@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react'
-import { StyledFirebaseAuth } from 'react-firebaseui'
-import * as firebase from 'firebase/app'
+// import { StyledFirebaseAuth } from 'react-firebaseui'
+import firebase from 'firebase/app'
 import 'firebase/auth'
 
 const Authentication: FC = (props) => {
@@ -26,10 +26,10 @@ const Authentication: FC = (props) => {
     if (!signedIn) {
         return (
             <div>
-                <StyledFirebaseAuth
+                {/* <StyledFirebaseAuth
                     uiConfig={uiConfig}
                     firebaseAuth={firebase.auth()}
-                />
+                /> */}
             </div>
         )
     }

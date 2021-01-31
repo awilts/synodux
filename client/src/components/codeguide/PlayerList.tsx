@@ -1,15 +1,15 @@
-import React, { FC } from 'react'
+import React, { FC, useContext } from 'react'
 import { Player } from '../../types/Player'
 import Grid from '@material-ui/core/Grid'
 import PlayerCard from './PlayerCard'
 import { makeStyles } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
-import { FirebaseReducer, useFirebase } from 'react-redux-firebase'
-import { functions } from 'firebase'
+import { FirebaseReducer } from 'react-redux-firebase'
 import HintList from './HintList'
 import { Hint } from '../../types/Hint'
 import { useSelector } from 'react-redux'
 import { State } from '../../store/state'
+import { PlayerListContext } from '../PlayerListContextProvider'
 
 type Props = {
     players: Player[]
@@ -28,37 +28,18 @@ const PlayerList: FC<Props> = ({ team, players }) => {
         (state: State) => state.firestore.ordered.hints
     )
 
-    const classes = useStyles()
-    const firebase = useFirebase()
-    const callJoinTeam = firebase
-        // @ts-ignore
-        .functions()
-        .httpsCallable('joinTeam')
-
     const user: FirebaseReducer.AuthState | undefined = useSelector(
         (state: State) => state.firebase?.auth
     )
+
+    const currentUser: Player = players.filter(player => player.id === user?.uid)[0]
+    const {playerList, joinTeam} = useContext(PlayerListContext)
+    const classes = useStyles()
 
     const isPlayerInCurrentLobby = players
         .filter(player => player.team === team)
         .map(player => player.id)
         .includes(user?.uid)
-
-    const joinTeam = async () => {
-        console.log(`joining team ${team}`)
-        const lobbyId = 'GeyDTo9SUstY3JhlofJj'
-        try {
-            const result: functions.HttpsCallableResult = await callJoinTeam({
-                team: team,
-                lobbyId,
-            })
-
-            const sanitizedMessage = result.data
-            console.log(sanitizedMessage)
-        } catch (err) {
-            console.log('BAD', err)
-        }
-    }
 
     return (
         <Grid item xs={2}>
@@ -72,8 +53,9 @@ const PlayerList: FC<Props> = ({ team, players }) => {
                                 <PlayerCard player={player} key={player.id} />
                             ))}
                 </Grid>
+                <p>{JSON.stringify(playerList)}</p>
                 <Button
-                    onClick={joinTeam}
+                    onClick={() => joinTeam(currentUser, team)}
                     variant="contained"
                     color="primary"
                     disabled={isPlayerInCurrentLobby}
