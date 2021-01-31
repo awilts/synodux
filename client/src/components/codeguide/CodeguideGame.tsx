@@ -64,9 +64,9 @@ const CodeguideGame: FC = () => {
     return (
         <>
             <Grid container spacing={2}>
-                <PlayerList players={players} team={'blue'} />
+                <PlayerList team={'blue'} />
                 <CodeguideBoard words={words} />
-                <PlayerList players={players} team={'red'} />
+                <PlayerList team={'red'} />
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <StartGameButton />
