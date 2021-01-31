@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react'
-// import { StyledFirebaseAuth } from 'react-firebaseui'
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import MyFirebaseAuthentication from './MyFirebaseAuthentication'
 
 const Authentication: FC = (props) => {
     const [signedIn, setSignedIn] = useState<boolean>(false)
@@ -26,10 +26,10 @@ const Authentication: FC = (props) => {
     if (!signedIn) {
         return (
             <div>
-                {/* <StyledFirebaseAuth
+                <MyFirebaseAuthentication
                     uiConfig={uiConfig}
                     firebaseAuth={firebase.auth()}
-                /> */}
+                />
             </div>
         )
     }

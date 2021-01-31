@@ -39,7 +39,7 @@ if (window.location.hostname === 'localhost') {
         host: 'localhost:8080',
         ssl: false,
     })
-    firebase.functions().useFunctionsEmulator('http://localhost:5001')
+    firebase.functions().useEmulator('localhost', 5001)
 }
 
 const rootReducer = combineReducers({
