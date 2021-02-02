@@ -7,7 +7,7 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "test:watch": "react-scripts test -- --watch",
-        "prettier": "prettier --write ../../listig-react-app"
+        "prettier": "prettier --write ./src"
     },
     "eslintConfig": {
         "extends": "react-app"

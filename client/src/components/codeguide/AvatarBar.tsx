@@ -29,7 +29,7 @@ export const AvatarBar: FC<Props> = (props: Props) => {
     if (props.playersToDisplay.length > 0) {
         return (
             <AvatarGroup>
-                {props.playersToDisplay.map((player) => {
+                {props.playersToDisplay.map(player => {
                     return (
                         <Avatar className={classes.small} key={player.id}>
                             {player.name[0]}

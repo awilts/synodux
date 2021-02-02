@@ -4,7 +4,6 @@ import * as firebaseui from 'firebaseui'
 const ELEMENT_ID = 'firebaseui_container'
 let firebaseUiDeletion = Promise.resolve()
 
-
 interface MyProps {
     uiConfig: Object
     firebaseAuth: Object

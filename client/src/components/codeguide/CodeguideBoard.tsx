@@ -17,11 +17,11 @@ const useStyles = makeStyles({
         padding: 20,
     },
 })
-const CodeguideBoard: FC<Props> = (props) => {
+const CodeguideBoard: FC<Props> = props => {
     const words = props.words
     const WordList =
         words &&
-        words.map((word) => <CodeguideCard key={word.boardId} word={word} />)
+        words.map(word => <CodeguideCard key={word.boardId} word={word} />)
     const classes = useStyles()
     const lobby: Lobby = useSelector(
         // @ts-ignore

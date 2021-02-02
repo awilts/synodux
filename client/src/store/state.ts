@@ -17,7 +17,7 @@ export const initialState: State = {
             wordOwners: [],
             hints: [],
         },
-    }
+    },
 }
 
 export type State = {

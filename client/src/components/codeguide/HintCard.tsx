@@ -8,7 +8,7 @@ type Props = {
     hint: Hint
 }
 
-const HintCard: FC<Props> = (props) => {
+const HintCard: FC<Props> = props => {
     return (
         <Grid item xs={12}>
             <Card>

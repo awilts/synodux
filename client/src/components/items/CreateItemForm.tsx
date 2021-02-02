@@ -10,7 +10,7 @@ const CreateItemForm: FC = () => {
         firestore
             .collection('items')
             .add(item)
-            .then((docRef) => {
+            .then(docRef => {
                 console.log(docRef)
             })
     }
@@ -31,7 +31,7 @@ const CreateItemForm: FC = () => {
             <input
                 type="text"
                 value={newItemText}
-                onChange={(event) => setNewItemText(event.target.value)}
+                onChange={event => setNewItemText(event.target.value)}
             />
             <button>submit</button>
         </form>

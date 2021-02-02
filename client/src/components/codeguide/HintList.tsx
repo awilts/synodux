@@ -8,14 +8,14 @@ type Props = {
     team: string
 }
 
-const HintList: FC<Props> = (props) => {
+const HintList: FC<Props> = props => {
     const hints = props.hints
 
     const Hints =
         hints &&
         hints
-            .filter((hint) => hint.team === props.team)
-            .map((hint) => <HintCard hint={hint} key={hint.id} />)
+            .filter(hint => hint.team === props.team)
+            .map(hint => <HintCard hint={hint} key={hint.id} />)
     return (
         <Grid container spacing={1}>
             <h3>Hints</h3>

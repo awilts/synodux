@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 )
 
-const PlayerCard: FC<Props> = (props) => {
+const PlayerCard: FC<Props> = props => {
     let styles = useStyles()
 
     const user: FirebaseReducer.AuthState | undefined = useSelector(

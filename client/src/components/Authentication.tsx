@@ -3,7 +3,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import MyFirebaseAuthentication from './MyFirebaseAuthentication'
 
-const Authentication: FC = (props) => {
+const Authentication: FC = props => {
     const [signedIn, setSignedIn] = useState<boolean>(false)
 
     const uiConfig = {
@@ -18,7 +18,7 @@ const Authentication: FC = (props) => {
     }
 
     useEffect(() => {
-        firebase.auth().onAuthStateChanged((user) => {
+        firebase.auth().onAuthStateChanged(user => {
             setSignedIn(!!user)
         })
     }, [])
