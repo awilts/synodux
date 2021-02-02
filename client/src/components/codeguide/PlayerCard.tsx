@@ -4,7 +4,7 @@ import { Player } from '../../types/Player'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
-import { PlayerListContext } from '../PlayerListContextProvider'
+import { ServerContext } from '../ServerContextProvider'
 
 type Props = {
     player: Player
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const PlayerCard: FC<Props> = ({ player }) => {
     let styles = useStyles()
 
-    const { thisPlayer } = useContext(PlayerListContext)
+    const { thisPlayer } = useContext(ServerContext)
     const [isThisPlayer, setIsThisPlayer] = useState<boolean>(false)
 
     useEffect(() => {

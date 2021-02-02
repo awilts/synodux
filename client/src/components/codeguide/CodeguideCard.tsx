@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import { CardColor } from '../../types/CardColor'
 import { AvatarBar } from './AvatarBar'
-import { PlayerListContext } from '../PlayerListContextProvider'
+import { ServerContext } from '../ServerContextProvider'
 import { Player } from '../../types/Player'
 
 type Props = {
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 const CodeguideCard: FC<Props> = ({ word }) => {
     const classes = useStyles()
-    const { players, voteForWord } = useContext(PlayerListContext)
+    const { players, voteForWord } = useContext(ServerContext)
     const [playersOnThisCard, setPlayersOnThisCard] = useState<Player[]>([])
 
     useEffect(() => {

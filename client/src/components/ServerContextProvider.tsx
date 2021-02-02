@@ -5,18 +5,18 @@ import 'firebase/functions'
 import { Player } from '../types/Player'
 import { Word } from '../types/Word'
 
-export type PlayerListContext = {
+export type ServerContext = {
     players: Player[]
     joinTeam: (player: Player, team: string) => void
     thisPlayer: Player
     voteForWord: (word: Word) => void
 }
 
-export const PlayerListContext = createContext<PlayerListContext>(
-    {} as PlayerListContext
+export const ServerContext = createContext<ServerContext>(
+    {} as ServerContext
 )
 
-export function PlayerListContextProvider({ children }) {
+export function ServerContextProvider({ children }) {
     const [players, setPlayers] = useState<Player[]>([])
     const [userId, setUserId] = useState<string>('')
     const [thisPlayer, setThisPlayer] = useState<Player>({ name: '' })
@@ -94,10 +94,10 @@ export function PlayerListContextProvider({ children }) {
     }
 
     return (
-        <PlayerListContext.Provider
+        <ServerContext.Provider
             value={{ players, joinTeam, thisPlayer, voteForWord }}
         >
             {children}
-        </PlayerListContext.Provider>
+        </ServerContext.Provider>
     )
 }

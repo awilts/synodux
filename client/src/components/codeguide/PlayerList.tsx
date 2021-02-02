@@ -7,7 +7,7 @@ import HintList from './HintList'
 import { Hint } from '../../types/Hint'
 import { useSelector } from 'react-redux'
 import { State } from '../../store/state'
-import { PlayerListContext } from '../PlayerListContextProvider'
+import { ServerContext } from '../ServerContextProvider'
 import { Player } from '../../types/Player'
 
 type Props = {
@@ -26,7 +26,7 @@ const PlayerList: FC<Props> = ({ team }) => {
         (state: State) => state.firestore.ordered.hints
     )
 
-    const { players, joinTeam, thisPlayer } = useContext(PlayerListContext)
+    const { players, joinTeam, thisPlayer } = useContext(ServerContext)
     const [playersInLobby, setPlayersInLobby] = useState<Player[]>()
     const [isPlayerInLobby, setIsPlayerInLobby] = useState<boolean>()
 
