@@ -4,6 +4,7 @@ import 'firebase/firestore'
 import 'firebase/functions'
 import { Player } from '../types/Player'
 import { Word } from '../types/Word'
+import { Item } from '../types/Item'
 
 export type ServerContext = {
     players: Player[]
@@ -19,7 +20,20 @@ export const ServerContext = createContext<ServerContext>(
 export function ServerContextProvider({ children }) {
     const [players, setPlayers] = useState<Player[]>([])
     const [userId, setUserId] = useState<string>('')
+    const [items, setItems] = useState<Item[]>([])
     const [thisPlayer, setThisPlayer] = useState<Player>({ name: '' })
+
+    useEffect(() => {
+        const curUser = firebase.auth().currentUser
+        if (curUser) {
+            setUserId(curUser.uid)
+        }
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                setUserId(user.uid)
+            }
+        })
+    }, [])
 
     useEffect(() => {
         const curUser = firebase.auth().currentUser

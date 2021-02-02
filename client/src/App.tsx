@@ -1,7 +1,6 @@
 import React, { FC } from 'react'
 import './App.css'
 import Authentication from './components/Authentication'
-import ItemOverview from './components/items/ItemOverview'
 import { Provider } from 'react-redux'
 import firebase from 'firebase/app'
 import 'firebase/auth'
@@ -61,7 +60,6 @@ const rrfProps = {
     createFirestoreInstance,
 }
 
-const showItems = false
 const showCodeguide = true
 
 const App: FC = () => {
@@ -71,7 +69,6 @@ const App: FC = () => {
                 <ReactReduxFirebaseProvider {...rrfProps}>
                     <Authentication>
                         <ServerContextProvider>
-                            {showItems ? <ItemOverview /> : <div />}
                             {showCodeguide ? <CodeguideGame /> : <div />}
                         </ServerContextProvider>
                     </Authentication>
