@@ -4,36 +4,23 @@ import 'firebase/firestore'
 import 'firebase/functions'
 import { Player } from '../types/Player'
 import { Word } from '../types/Word'
-import { Item } from '../types/Item'
 
 export type ServerContext = {
     players: Player[]
     joinTeam: (player: Player, team: string) => void
     thisPlayer: Player
     voteForWord: (word: Word) => void
+    currentTeam: string
+    startGame: () => void
 }
 
-export const ServerContext = createContext<ServerContext>(
-    {} as ServerContext
-)
+export const ServerContext = createContext<ServerContext>({} as ServerContext)
 
 export function ServerContextProvider({ children }) {
     const [players, setPlayers] = useState<Player[]>([])
     const [userId, setUserId] = useState<string>('')
-    const [items, setItems] = useState<Item[]>([])
     const [thisPlayer, setThisPlayer] = useState<Player>({ name: '' })
-
-    useEffect(() => {
-        const curUser = firebase.auth().currentUser
-        if (curUser) {
-            setUserId(curUser.uid)
-        }
-        firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-                setUserId(user.uid)
-            }
-        })
-    }, [])
+    const [currentTeam, setCurrentTeam] = useState<string>('')
 
     useEffect(() => {
         const curUser = firebase.auth().currentUser
@@ -58,6 +45,16 @@ export function ServerContextProvider({ children }) {
                     return { ...doc.data(), id: doc.id }
                 })
                 setPlayers(players as Player[])
+            })
+    }, [])
+
+    useEffect(() => {
+        firebase
+            .firestore()
+            .collection('lobbies')
+            .doc('GeyDTo9SUstY3JhlofJj')
+            .onSnapshot(doc => {
+                setCurrentTeam(doc.data()?.currentTeam)
             })
     }, [])
 
@@ -94,6 +91,17 @@ export function ServerContextProvider({ children }) {
             .catch(err => console.log('BAD', err))
     }
 
+    async function startGame() {
+        console.log("starting game")
+
+        await firebase
+            .functions()
+            .httpsCallable('startGame')({
+                lobbyId: 'GeyDTo9SUstY3JhlofJj'
+            })
+            .catch(err => console.log('BAD', err))
+    }
+
     async function joinTeam(player: Player, team: string) {
         const updatedPlayer = { ...player, team }
         setPlayers([...players, updatedPlayer])
@@ -109,7 +117,7 @@ export function ServerContextProvider({ children }) {
 
     return (
         <ServerContext.Provider
-            value={{ players, joinTeam, thisPlayer, voteForWord }}
+            value={{ players, joinTeam, thisPlayer, voteForWord, currentTeam, startGame }}
         >
             {children}
         </ServerContext.Provider>

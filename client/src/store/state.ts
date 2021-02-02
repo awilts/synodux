@@ -1,4 +1,3 @@
-import { Item } from '../types/Item'
 import { Word } from '../types/Word'
 import { Player } from '../types/Player'
 import { WordOwner } from '../types/WordOwner'
@@ -10,7 +9,6 @@ export const initialState: State = {
             lobby: {
                 currentTeam: '',
             },
-            items: [],
             words: [],
             players: [],
             wordOwners: [],
@@ -25,7 +23,6 @@ export type State = {
             lobby: {
                 currentTeam: string
             }
-            items: Item[]
             words: Word[]
             players: Player[]
             hints: Hint[]
