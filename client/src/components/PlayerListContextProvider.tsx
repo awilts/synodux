@@ -3,11 +3,13 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/functions'
 import { Player } from '../types/Player'
+import { Word } from '../types/Word'
 
 export type PlayerListContext = {
     players: Player[]
     joinTeam: (player: Player, team: string) => void
     thisPlayer: Player
+    voteForWord: (word: Word) => void
 }
 
 export const PlayerListContext = createContext<PlayerListContext>(
@@ -39,7 +41,7 @@ export function PlayerListContextProvider({ children }) {
             .collection('players')
             .onSnapshot(doc => {
                 const players = doc.docs.map(doc => {
-                    return {...doc.data(), id: doc.id}
+                    return { ...doc.data(), id: doc.id }
                 })
                 setPlayers(players as Player[])
             })
@@ -47,9 +49,7 @@ export function PlayerListContextProvider({ children }) {
 
     useEffect(() => {
         if (userId && players.length > 0) {
-            const playerCandidate = players.find(
-                player => player.id === userId
-            )
+            const playerCandidate = players.find(player => player.id === userId)
             if (playerCandidate) {
                 setThisPlayer(playerCandidate)
             }
@@ -68,6 +68,18 @@ export function PlayerListContextProvider({ children }) {
             .catch(err => console.log('BAD', err))
     }
 
+    async function voteForWord(word: Word) {
+        console.log(`voting for card ${word}`)
+
+        await firebase
+            .functions()
+            .httpsCallable('changeVote')({
+                vote: word.id,
+                lobbyId: 'GeyDTo9SUstY3JhlofJj',
+            })
+            .catch(err => console.log('BAD', err))
+    }
+
     async function joinTeam(player: Player, team: string) {
         const updatedPlayer = { ...player, team }
         setPlayers([...players, updatedPlayer])
@@ -82,7 +94,9 @@ export function PlayerListContextProvider({ children }) {
     }
 
     return (
-        <PlayerListContext.Provider value={{ players: players, joinTeam, thisPlayer: thisPlayer }}>
+        <PlayerListContext.Provider
+            value={{ players, joinTeam, thisPlayer, voteForWord }}
+        >
             {children}
         </PlayerListContext.Provider>
     )
