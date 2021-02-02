@@ -1,12 +1,10 @@
-import React, { FC } from 'react'
+import React, { FC, useContext, useEffect, useState } from 'react'
 import { Card, createStyles, Theme } from '@material-ui/core'
 import { Player } from '../../types/Player'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import { useSelector } from 'react-redux'
-import { State } from '../../store/state'
 import { makeStyles } from '@material-ui/core/styles'
-import { FirebaseReducer } from 'react-redux-firebase'
+import { PlayerListContext } from '../PlayerListContextProvider'
 
 type Props = {
     player: Player
@@ -20,23 +18,26 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 )
 
-const PlayerCard: FC<Props> = props => {
+const PlayerCard: FC<Props> = ({ player }) => {
     let styles = useStyles()
 
-    const user: FirebaseReducer.AuthState | undefined = useSelector(
-        (state: State) => state.firebase?.auth
-    )
+    const { thisPlayer } = useContext(PlayerListContext)
+    const [isThisPlayer, setIsThisPlayer] = useState<boolean>(false)
 
-    let isCurrentUser = false
-    if (props.player.name === user?.displayName) {
-        isCurrentUser = true
-    }
+    useEffect(() => {
+        if (player.id === thisPlayer.id) {
+            setIsThisPlayer(true)
+        } else{
+            setIsThisPlayer(false)
+        }
+    }, [thisPlayer])
+ 
 
-    if (isCurrentUser) {
+    if (isThisPlayer) {
         return (
             <Grid item xs={12}>
                 <Card className={styles.green}>
-                    <Typography>{props.player.name}</Typography>
+                    <Typography>{player.name}</Typography>
                 </Card>
             </Grid>
         )
@@ -44,7 +45,7 @@ const PlayerCard: FC<Props> = props => {
         return (
             <Grid item xs={12}>
                 <Card>
-                    <Typography>{props.player.name}</Typography>
+                    <Typography>{player.name}</Typography>
                 </Card>
             </Grid>
         )
