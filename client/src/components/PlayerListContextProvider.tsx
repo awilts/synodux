@@ -5,9 +5,9 @@ import 'firebase/functions'
 import { Player } from '../types/Player'
 
 export type PlayerListContext = {
-    playerList: Player[]
+    players: Player[]
     joinTeam: (player: Player, team: string) => void
-    player: Player
+    thisPlayer: Player
 }
 
 export const PlayerListContext = createContext<PlayerListContext>(
@@ -15,9 +15,9 @@ export const PlayerListContext = createContext<PlayerListContext>(
 )
 
 export function PlayerListContextProvider({ children }) {
-    const [playerList, setPlayerList] = useState<Player[]>([])
+    const [players, setPlayers] = useState<Player[]>([])
     const [userId, setUserId] = useState<string>('')
-    const [player, setPlayer] = useState<Player>({ name: '' })
+    const [thisPlayer, setThisPlayer] = useState<Player>({ name: '' })
 
     useEffect(() => {
         const curUser = firebase.auth().currentUser
@@ -38,25 +38,26 @@ export function PlayerListContextProvider({ children }) {
             .doc('GeyDTo9SUstY3JhlofJj')
             .collection('players')
             .onSnapshot(doc => {
-                const players = doc.docs.map(doc => doc.data())
-                console.log('received new playerlist data', players)
-                setPlayerList(players as Player[])
+                const players = doc.docs.map(doc => {
+                    return {...doc.data(), id: doc.id}
+                })
+                setPlayers(players as Player[])
             })
     }, [])
 
     useEffect(() => {
-        if (userId && playerList.length > 0) {
-            const playerCandidate = playerList.find(
+        if (userId && players.length > 0) {
+            const playerCandidate = players.find(
                 player => player.id === userId
             )
             if (playerCandidate) {
-                setPlayer(playerCandidate)
+                setThisPlayer(playerCandidate)
             }
         }
-    }, [userId, playerList])
+    }, [userId, players])
 
     function updatePlayer(player: Player) {
-        setPlayerList([...playerList, player])
+        setPlayers([...players, player])
         firebase
             .firestore()
             .collection('lobbies')
@@ -69,7 +70,7 @@ export function PlayerListContextProvider({ children }) {
 
     async function joinTeam(player: Player, team: string) {
         const updatedPlayer = { ...player, team }
-        setPlayerList([...playerList, updatedPlayer])
+        setPlayers([...players, updatedPlayer])
         console.log(`joining team ${team}`)
         await firebase
             .functions()
@@ -81,7 +82,7 @@ export function PlayerListContextProvider({ children }) {
     }
 
     return (
-        <PlayerListContext.Provider value={{ playerList, joinTeam, player }}>
+        <PlayerListContext.Provider value={{ players: players, joinTeam, thisPlayer: thisPlayer }}>
             {children}
         </PlayerListContext.Provider>
     )

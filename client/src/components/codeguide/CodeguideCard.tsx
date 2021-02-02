@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useContext } from 'react'
 import { Word } from '../../types/Word'
 import Card from '@material-ui/core/Card'
 import { CardContent, createStyles, Grid, Theme } from '@material-ui/core'
@@ -12,6 +12,7 @@ import { Player } from '../../types/Player'
 import { AvatarBar } from './AvatarBar'
 import firebase from 'firebase/app'
 import 'firebase/functions'
+import { PlayerListContext } from '../PlayerListContextProvider'
 
 type Props = {
     word: Word
@@ -41,6 +42,8 @@ const CodeguideCard: FC<Props> = props => {
         .functions()
         .httpsCallable('changeVote')
 
+    const { players } = useContext(PlayerListContext)
+
     const voteForCard = async () => {
         const lobbyId = 'GeyDTo9SUstY3JhlofJj'
         console.log({ word })
@@ -55,9 +58,6 @@ const CodeguideCard: FC<Props> = props => {
         })
     }
 
-    const players: Player[] = useSelector(
-        (state: State) => state.firestore.ordered.players
-    )
     const word = props.word
 
     const playersOnThisCard = players.filter(player => player.vote === word.id)

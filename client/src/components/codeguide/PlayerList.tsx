@@ -26,20 +26,17 @@ const PlayerList: FC<Props> = ({ team }) => {
         (state: State) => state.firestore.ordered.hints
     )
 
-    const { playerList, joinTeam, player } = useContext(PlayerListContext)
-
+    const { players, joinTeam, thisPlayer } = useContext(PlayerListContext)
     const [playersInLobby, setPlayersInLobby] = useState<Player[]>()
     const [isPlayerInLobby, setIsPlayerInLobby] = useState<boolean>()
 
     const classes = useStyles()
 
     useEffect(() => {
-        const newPlayersInLobby = playerList.filter(
-            player => player.team === team
-        )
-        setPlayersInLobby(newPlayersInLobby)
-        setIsPlayerInLobby(playerList.includes(player))
-    }, [playerList, player])
+        const playersInTeam = players.filter(player => player.team === team)
+        setPlayersInLobby(playersInTeam)
+        setIsPlayerInLobby(playersInTeam.some(player => player.id === thisPlayer.id))
+    }, [players, thisPlayer])
 
     return (
         <Grid item xs={2}>
@@ -51,9 +48,8 @@ const PlayerList: FC<Props> = ({ team }) => {
                             <PlayerCard player={player} key={player.id} />
                         ))}
                 </Grid>
-                <p>{JSON.stringify(playerList)}</p>
                 <Button
-                    onClick={() => joinTeam(player, team)}
+                    onClick={() => joinTeam(thisPlayer, team)}
                     variant="contained"
                     color="primary"
                     disabled={isPlayerInLobby}

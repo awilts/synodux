@@ -28,7 +28,6 @@
         "react-redux": "^7.2.2",
         "react-redux-firebase": "^3.10.0",
         "react-scripts": "4.0.1",
-        "reactfire": "^3.0.0-rc.0",
         "redux": "^4.0.5",
         "redux-firestore": "^0.14.0",
         "typeface-roboto": "1.1.13",
