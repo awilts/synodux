@@ -9,21 +9,6 @@
         "test:watch": "react-scripts test -- --watch",
         "prettier": "prettier --write ./src"
     },
-    "eslintConfig": {
-        "extends": "react-app"
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
-    },
     "dependencies": {
         "@material-ui/core": "^4.11.3",
         "@material-ui/icons": "^4.11.2",
@@ -63,5 +48,20 @@
         "enzyme-adapter-react-16": "^1.15.6",
         "prettier": "2.2.1",
         "ts-jest": "^26.5.0"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
     }
 }
