@@ -25,10 +25,8 @@ export type ServerContext = {
 export const ServerContext = createContext<ServerContext>({} as ServerContext)
 
 export function ServerContextProvider({ children }) {
+    
     const [userId, setUserId] = useState<string>('')
-    const [thisPlayer, setThisPlayer] = useState<Player>({ name: '' })
-    const [currentTeam, setCurrentTeam] = useState<string>('')
-
     useEffect(() => {
         const curUser = firebase.auth().currentUser
         if (curUser) {
@@ -113,6 +111,7 @@ export function ServerContextProvider({ children }) {
             })
     }, [])
 
+    const [currentTeam, setCurrentTeam] = useState<string>('')
     useEffect(() => {
         firebase
             .firestore()
@@ -123,6 +122,7 @@ export function ServerContextProvider({ children }) {
             })
     }, [])
 
+    const [thisPlayer, setThisPlayer] = useState<Player>({ name: '' })
     useEffect(() => {
         if (userId && players.length > 0) {
             const playerCandidate = players.find(player => player.id === userId)
