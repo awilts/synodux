@@ -4,9 +4,6 @@ import PlayerCard from './PlayerCard'
 import { makeStyles } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
 import HintList from './HintList'
-import { Hint } from '../../types/Hint'
-import { useSelector } from 'react-redux'
-import { State } from '../../store/state'
 import { ServerContext } from '../ServerContextProvider'
 import { Player } from '../../types/Player'
 
@@ -22,10 +19,7 @@ const useStyles = makeStyles({
 })
 
 const PlayerList: FC<Props> = ({ team }) => {
-    const hints: Hint[] = useSelector(
-        (state: State) => state.firestore.ordered.hints
-    )
-
+    
     const { players, joinTeam, thisPlayer } = useContext(ServerContext)
     const [playersInLobby, setPlayersInLobby] = useState<Player[]>()
     const [isPlayerInLobby, setIsPlayerInLobby] = useState<boolean>()
@@ -56,7 +50,7 @@ const PlayerList: FC<Props> = ({ team }) => {
                 >
                     Join Team
                 </Button>
-                <HintList hints={hints} team={team} />
+                <HintList team={team} />
             </div>
         </Grid>
     )

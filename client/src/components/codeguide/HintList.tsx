@@ -1,15 +1,15 @@
-import React, { FC } from 'react'
+import React, { FC, useContext } from 'react'
 import Grid from '@material-ui/core/Grid'
 import { Hint } from '../../types/Hint'
 import HintCard from './HintCard'
+import { ServerContext } from '../ServerContextProvider'
 
 type Props = {
-    hints: Hint[]
     team: string
 }
 
 const HintList: FC<Props> = props => {
-    const hints = props.hints
+    const { hints } = useContext(ServerContext)
 
     const Hints =
         hints &&

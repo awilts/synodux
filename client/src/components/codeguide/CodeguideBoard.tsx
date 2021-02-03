@@ -1,15 +1,10 @@
-import React, { FC } from 'react'
+import React, { FC, useContext } from 'react'
 import { Word } from '../../types/Word'
 import { Box, Grid, Typography } from '@material-ui/core'
 import CodeguideCard from './CodeguideCard'
 import { makeStyles } from '@material-ui/core/styles'
-import { useSelector } from 'react-redux'
-import { State } from '../../store/state'
-import { Lobby } from '../../types/Lobby'
+import { ServerContext } from '../ServerContextProvider'
 
-type Props = {
-    words: Word[]
-}
 
 const useStyles = makeStyles({
     root: {
@@ -17,16 +12,13 @@ const useStyles = makeStyles({
         padding: 20,
     },
 })
-const CodeguideBoard: FC<Props> = props => {
-    const words = props.words
+const CodeguideBoard: FC = props => {
+    const { lobby, words } = useContext(ServerContext)
     const WordList =
         words &&
         words.map(word => <CodeguideCard key={word.boardId} word={word} />)
     const classes = useStyles()
-    const lobby: Lobby = useSelector(
-        // @ts-ignore
-        (state: State) => state.firestore.ordered.lobby[0]
-    )
+
 
     let titelText
     if (lobby && lobby.currentTeam) {

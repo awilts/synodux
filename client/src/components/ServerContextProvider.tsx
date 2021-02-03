@@ -4,13 +4,20 @@ import 'firebase/firestore'
 import 'firebase/functions'
 import { Player } from '../types/Player'
 import { Word } from '../types/Word'
+import { Hint } from '../types/Hint'
+import { WordOwner } from '../types/WordOwner'
+import { Lobby } from '../types/Lobby'
 
 export type ServerContext = {
     players: Player[]
-    joinTeam: (player: Player, team: string) => void
+    hints: Hint[]
+    wordOwners: WordOwner[]
+    words: Word[]
     thisPlayer: Player
-    voteForWord: (word: Word) => void
     currentTeam: string
+    lobby: Lobby
+    joinTeam: (player: Player, team: string) => void
+    voteForWord: (word: Word) => void
     startGame: () => void
     forceAdvanceGame: () => void
 }
@@ -18,7 +25,6 @@ export type ServerContext = {
 export const ServerContext = createContext<ServerContext>({} as ServerContext)
 
 export function ServerContextProvider({ children }) {
-    const [players, setPlayers] = useState<Player[]>([])
     const [userId, setUserId] = useState<string>('')
     const [thisPlayer, setThisPlayer] = useState<Player>({ name: '' })
     const [currentTeam, setCurrentTeam] = useState<string>('')
@@ -35,6 +41,7 @@ export function ServerContextProvider({ children }) {
         })
     }, [])
 
+    const [players, setPlayers] = useState<Player[]>([])
     useEffect(() => {
         firebase
             .firestore()
@@ -46,6 +53,63 @@ export function ServerContextProvider({ children }) {
                     return { ...doc.data(), id: doc.id }
                 })
                 setPlayers(players as Player[])
+            })
+    }, [])
+
+    const [lobby, setLobby] = useState<Lobby>({} as Lobby)
+    useEffect(() => {
+        firebase
+            .firestore()
+            .collection('lobbies')
+            .doc('GeyDTo9SUstY3JhlofJj')
+            .onSnapshot(doc => {
+                const lobby = { ...doc.data(), id: doc.id }
+                setLobby(lobby as Lobby)
+            })
+    }, [])
+
+    const [hints, setHints] = useState<Hint[]>([])
+    useEffect(() => {
+        firebase
+            .firestore()
+            .collection('lobbies')
+            .doc('GeyDTo9SUstY3JhlofJj')
+            .collection('hints')
+            .onSnapshot(doc => {
+                const hints = doc.docs.map(doc => {
+                    return { ...doc.data(), id: doc.id }
+                })
+                setHints(hints as Hint[])
+            })
+    }, [])
+
+    const [wordOwners, setWordOwners] = useState<WordOwner[]>([])
+    useEffect(() => {
+        firebase
+            .firestore()
+            .collection('lobbies')
+            .doc('GeyDTo9SUstY3JhlofJj')
+            .collection('wordOwners')
+            .onSnapshot(doc => {
+                const wordOwners = doc.docs.map(doc => {
+                    return { ...doc.data(), id: doc.id }
+                })
+                setWordOwners(wordOwners as WordOwner[])
+            })
+    }, [])
+
+    const [words, setWords] = useState<Word[]>([])
+    useEffect(() => {
+        firebase
+            .firestore()
+            .collection('lobbies')
+            .doc('GeyDTo9SUstY3JhlofJj')
+            .collection('words')
+            .onSnapshot(doc => {
+                const words = doc.docs.map(doc => {
+                    return { ...doc.data(), id: doc.id }
+                })
+                setWords(words as Word[])
             })
     }, [])
 
@@ -129,12 +193,16 @@ export function ServerContextProvider({ children }) {
         <ServerContext.Provider
             value={{
                 players,
-                joinTeam,
+                hints,
                 thisPlayer,
-                voteForWord,
                 currentTeam,
+                wordOwners,
+                words,
+                lobby,
+                joinTeam,
+                voteForWord,
                 startGame,
-                forceAdvanceGame
+                forceAdvanceGame,
             }}
         >
             {children}

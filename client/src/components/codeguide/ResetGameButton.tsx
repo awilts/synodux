@@ -1,22 +1,23 @@
-import React, { FC } from 'react'
+import React, { FC, useContext } from 'react'
 import { Button } from '@material-ui/core'
-import { useFirestore } from 'react-redux-firebase'
 import { Word } from '../../types/Word'
 import { CardColor } from '../../types/CardColor'
 import { Player } from '../../types/Player'
 import { Hint } from '../../types/Hint'
 import { WordOwner } from '../../types/WordOwner'
 import { each } from 'async'
+import firebase from 'firebase/app'
+import 'firebase/firestore'
+import 'firebase/functions'
+import { ServerContext } from '../ServerContextProvider'
 
 type Props = {
-    words: Word[]
-    players: Player[]
-    hints: Hint[]
-    wordOwners: WordOwner[]
 }
 
 const ResetGameButton: FC<Props> = props => {
-    const firestore = useFirestore()
+    const firestore = firebase.firestore()
+
+    const { hints, players, wordOwners, words } = useContext(ServerContext)
     const addPlayer = (player: Player) => {
         firestore
             .collection('lobbies')
@@ -234,13 +235,12 @@ const ResetGameButton: FC<Props> = props => {
 
     const resetGame = async () => {
         console.log('resetting game')
-        const propsCopy = JSON.parse(JSON.stringify(props))
         await generateWords()
         resetLobby()
-        resetWordOwners(propsCopy.wordOwners)
-        resetPlayers(propsCopy.players)
-        resetHints(propsCopy.hints)
-        resetWords(propsCopy.words)
+        resetWordOwners(JSON.parse(JSON.stringify(wordOwners)))
+        resetPlayers(JSON.parse(JSON.stringify(players)))
+        resetHints(JSON.parse(JSON.stringify(hints)))
+        resetWords(JSON.parse(JSON.stringify(words)))
         resetCurrentTeam()
 
         const host: Player = {
