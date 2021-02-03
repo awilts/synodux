@@ -1,10 +1,10 @@
 import React, { FC, useContext, useEffect, useState } from 'react'
 import { Button } from '@material-ui/core'
-import { ServerContext } from '../ServerContextProvider'
+import { FirebaseContext } from '../FirebaseContextProvider'
 
 const StartGameButton: FC = () => {
 
-    const { currentTeam, startGame } = useContext(ServerContext)
+    const { currentTeam, startGame } = useContext(FirebaseContext)
     const [isGameRunning, setGameRunning] = useState<boolean>(false)
 
     useEffect(() => {

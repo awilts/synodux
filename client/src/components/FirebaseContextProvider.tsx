@@ -8,7 +8,7 @@ import { Hint } from '../types/Hint'
 import { WordOwner } from '../types/WordOwner'
 import { Lobby } from '../types/Lobby'
 
-export type ServerContext = {
+export type FirebaseContext = {
     players: Player[]
     hints: Hint[]
     wordOwners: WordOwner[]
@@ -22,9 +22,27 @@ export type ServerContext = {
     forceAdvanceGame: () => void
 }
 
-export const ServerContext = createContext<ServerContext>({} as ServerContext)
+export const FirebaseContext = createContext<FirebaseContext>({} as FirebaseContext)
 
-export function ServerContextProvider({ children }) {
+
+const conf = require('../devlocal').conf
+const firebaseConfig = {
+    apiKey: conf.apiKey,
+    authDomain: conf.authDomain,
+    projectId: conf.projectId,
+}
+
+firebase.initializeApp(firebaseConfig)
+
+if (window.location.hostname === 'localhost') {
+    firebase.firestore().settings({
+        host: 'localhost:8080',
+        ssl: false,
+    })
+    firebase.functions().useEmulator('localhost', 5001)
+}
+
+export function FirebaseContextProvider({ children }) {
     
     const [userId, setUserId] = useState<string>('')
     useEffect(() => {
@@ -190,7 +208,7 @@ export function ServerContextProvider({ children }) {
     }
 
     return (
-        <ServerContext.Provider
+        <FirebaseContext.Provider
             value={{
                 players,
                 hints,
@@ -206,6 +224,6 @@ export function ServerContextProvider({ children }) {
             }}
         >
             {children}
-        </ServerContext.Provider>
+        </FirebaseContext.Provider>
     )
 }

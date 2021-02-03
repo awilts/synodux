@@ -9,7 +9,7 @@ import { each } from 'async'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/functions'
-import { ServerContext } from '../ServerContextProvider'
+import { FirebaseContext } from '../FirebaseContextProvider'
 
 type Props = {
 }
@@ -17,7 +17,7 @@ type Props = {
 const ResetGameButton: FC<Props> = props => {
     const firestore = firebase.firestore()
 
-    const { hints, players, wordOwners, words } = useContext(ServerContext)
+    const { hints, players, wordOwners, words } = useContext(FirebaseContext)
     const addPlayer = (player: Player) => {
         firestore
             .collection('lobbies')

@@ -3,7 +3,7 @@ import { Word } from '../../types/Word'
 import { Box, Grid, Typography } from '@material-ui/core'
 import CodeguideCard from './CodeguideCard'
 import { makeStyles } from '@material-ui/core/styles'
-import { ServerContext } from '../ServerContextProvider'
+import { FirebaseContext } from '../FirebaseContextProvider'
 
 
 const useStyles = makeStyles({
@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     },
 })
 const CodeguideBoard: FC = props => {
-    const { lobby, words } = useContext(ServerContext)
+    const { lobby, words } = useContext(FirebaseContext)
     const WordList =
         words &&
         words.map(word => <CodeguideCard key={word.boardId} word={word} />)

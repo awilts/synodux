@@ -4,7 +4,7 @@ import PlayerCard from './PlayerCard'
 import { makeStyles } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
 import HintList from './HintList'
-import { ServerContext } from '../ServerContextProvider'
+import { FirebaseContext } from '../FirebaseContextProvider'
 import { Player } from '../../types/Player'
 
 type Props = {
@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 
 const PlayerList: FC<Props> = ({ team }) => {
     
-    const { players, joinTeam, thisPlayer } = useContext(ServerContext)
+    const { players, joinTeam, thisPlayer } = useContext(FirebaseContext)
     const [playersInLobby, setPlayersInLobby] = useState<Player[]>()
     const [isPlayerInLobby, setIsPlayerInLobby] = useState<boolean>()
 

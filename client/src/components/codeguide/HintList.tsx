@@ -2,14 +2,14 @@ import React, { FC, useContext } from 'react'
 import Grid from '@material-ui/core/Grid'
 import { Hint } from '../../types/Hint'
 import HintCard from './HintCard'
-import { ServerContext } from '../ServerContextProvider'
+import { FirebaseContext } from '../FirebaseContextProvider'
 
 type Props = {
     team: string
 }
 
 const HintList: FC<Props> = props => {
-    const { hints } = useContext(ServerContext)
+    const { hints } = useContext(FirebaseContext)
 
     const Hints =
         hints &&

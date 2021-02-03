@@ -1,10 +1,10 @@
 import React, { FC, useContext } from 'react'
 import { Button } from '@material-ui/core'
-import { ServerContext } from '../ServerContextProvider'
+import { FirebaseContext } from '../FirebaseContextProvider'
 
 const SkipVotingButton: FC = () => {
 
-    const {forceAdvanceGame } = useContext(ServerContext)
+    const {forceAdvanceGame } = useContext(FirebaseContext)
 
     return (
         <Button onClick={() => forceAdvanceGame()} variant="contained" color="primary">
