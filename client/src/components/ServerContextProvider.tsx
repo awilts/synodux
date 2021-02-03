@@ -12,6 +12,7 @@ export type ServerContext = {
     voteForWord: (word: Word) => void
     currentTeam: string
     startGame: () => void
+    forceAdvanceGame: () => void
 }
 
 export const ServerContext = createContext<ServerContext>({} as ServerContext)
@@ -92,12 +93,12 @@ export function ServerContextProvider({ children }) {
     }
 
     async function startGame() {
-        console.log("starting game")
+        console.log('starting game')
 
         await firebase
             .functions()
             .httpsCallable('startGame')({
-                lobbyId: 'GeyDTo9SUstY3JhlofJj'
+                lobbyId: 'GeyDTo9SUstY3JhlofJj',
             })
             .catch(err => console.log('BAD', err))
     }
@@ -115,9 +116,26 @@ export function ServerContextProvider({ children }) {
             .catch(err => console.log('BAD', err))
     }
 
+    async function forceAdvanceGame() {
+        await firebase
+            .functions()
+            .httpsCallable('forceAdvanceGame')({
+                lobbyId: 'GeyDTo9SUstY3JhlofJj',
+            })
+            .catch(err => console.log('BAD', err))
+    }
+
     return (
         <ServerContext.Provider
-            value={{ players, joinTeam, thisPlayer, voteForWord, currentTeam, startGame }}
+            value={{
+                players,
+                joinTeam,
+                thisPlayer,
+                voteForWord,
+                currentTeam,
+                startGame,
+                forceAdvanceGame
+            }}
         >
             {children}
         </ServerContext.Provider>
