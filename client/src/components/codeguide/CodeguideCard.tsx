@@ -35,7 +35,7 @@ const CodeguideCard: FC<Props> = ({ word }) => {
 
     useEffect(() => {
         setPlayersOnThisCard(players.filter(player => player.vote === word.id))
-    }, [players])
+    }, [players, word])
     const color = word.team
 
     return (

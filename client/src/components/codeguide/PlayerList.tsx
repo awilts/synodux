@@ -30,7 +30,7 @@ const PlayerList: FC<Props> = ({ team }) => {
         const playersInTeam = players.filter(player => player.team === team)
         setPlayersInLobby(playersInTeam)
         setIsPlayerInLobby(playersInTeam.some(player => player.id === thisPlayer.id))
-    }, [players, thisPlayer])
+    }, [players, thisPlayer, team])
 
     return (
         <Grid item xs={2}>

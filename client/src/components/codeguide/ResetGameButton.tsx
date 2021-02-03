@@ -11,10 +11,7 @@ import 'firebase/firestore'
 import 'firebase/functions'
 import { FirebaseContext } from '../FirebaseContextProvider'
 
-type Props = {
-}
-
-const ResetGameButton: FC<Props> = props => {
+const ResetGameButton: FC = () => {
     const firestore = firebase.firestore()
 
     const { hints, players, wordOwners, words } = useContext(FirebaseContext)

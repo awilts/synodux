@@ -8,7 +8,7 @@ import { Hint } from '../types/Hint'
 import { WordOwner } from '../types/WordOwner'
 import { Lobby } from '../types/Lobby'
 
-export type FirebaseContext = {
+export type IFirebaseContext = {
     players: Player[]
     hints: Hint[]
     wordOwners: WordOwner[]
@@ -22,7 +22,7 @@ export type FirebaseContext = {
     forceAdvanceGame: () => void
 }
 
-export const FirebaseContext = createContext<FirebaseContext>({} as FirebaseContext)
+export const FirebaseContext = createContext<IFirebaseContext>({} as IFirebaseContext)
 
 
 const conf = require('../devlocal').conf

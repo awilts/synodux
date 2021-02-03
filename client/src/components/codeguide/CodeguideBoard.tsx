@@ -1,5 +1,4 @@
 import React, { FC, useContext } from 'react'
-import { Word } from '../../types/Word'
 import { Box, Grid, Typography } from '@material-ui/core'
 import CodeguideCard from './CodeguideCard'
 import { makeStyles } from '@material-ui/core/styles'
@@ -12,7 +11,7 @@ const useStyles = makeStyles({
         padding: 20,
     },
 })
-const CodeguideBoard: FC = props => {
+const CodeguideBoard: FC = () => {
     const { lobby, words } = useContext(FirebaseContext)
     const WordList =
         words &&

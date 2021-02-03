@@ -30,7 +30,7 @@ const PlayerCard: FC<Props> = ({ player }) => {
         } else{
             setIsThisPlayer(false)
         }
-    }, [thisPlayer])
+    }, [thisPlayer, player])
  
 
     if (isThisPlayer) {
