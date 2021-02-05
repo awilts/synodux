@@ -9,9 +9,10 @@ import StartGameButton from './StartGameButton'
 const CodeguideGame: FC = () => {
     return (
         <>
-            <Grid container spacing={2}>
+            {/* <Grid container spacing={2}> */}
+            <div className="flex flex-wrap">
                 <PlayerList team={'blue'} />
-                <CodeguideBoard/>
+                <CodeguideBoard />
                 <PlayerList team={'red'} />
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
@@ -19,11 +20,12 @@ const CodeguideGame: FC = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <Typography>Host-Buttons:</Typography>
-                        <ResetGameButton/>
+                        <ResetGameButton />
                         <SkipVotingButton />
                     </Grid>
                 </Grid>
-            </Grid>
+            </div>
+            {/* </Grid> */}
         </>
     )
 }
