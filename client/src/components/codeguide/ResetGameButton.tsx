@@ -1,5 +1,4 @@
-import React, { FC, useContext } from 'react'
-import { Button } from '@material-ui/core'
+import { FC, useContext } from 'react'
 import { Word } from '../../types/Word'
 import { CardColor } from '../../types/CardColor'
 import { Player } from '../../types/Player'
@@ -258,9 +257,13 @@ const ResetGameButton: FC = () => {
     }
 
     return (
-        <Button onClick={resetGame} variant="contained" color="primary">
+        <button
+            onClick={() => resetGame()}
+            type="button"
+            className="border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline"
+        >
             Reset game
-        </Button>
+        </button>
     )
 }
 

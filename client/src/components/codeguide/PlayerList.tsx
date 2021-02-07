@@ -9,7 +9,6 @@ type Props = {
     team: string
 }
 
-
 const PlayerList: FC<Props> = ({ team }) => {
     const { players, joinTeam, thisPlayer } = useContext(FirebaseContext)
     const [playersInLobby, setPlayersInLobby] = useState<Player[]>()
@@ -24,7 +23,7 @@ const PlayerList: FC<Props> = ({ team }) => {
     }, [players, thisPlayer, team])
 
     return (
-        <div className="flex-none w-48">
+        <>
             <div className="flex flex-col">
                 <h3>Team {team}</h3>
                 {playersInLobby &&
@@ -41,7 +40,7 @@ const PlayerList: FC<Props> = ({ team }) => {
                 Join Team
             </Button>
             <HintList team={team} />
-        </div>
+        </>
     )
 }
 

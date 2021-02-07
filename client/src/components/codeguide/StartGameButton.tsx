@@ -1,9 +1,7 @@
-import React, { FC, useContext, useEffect, useState } from 'react'
-import { Button } from '@material-ui/core'
+import { FC, useContext, useEffect, useState } from 'react'
 import { FirebaseContext } from '../FirebaseContextProvider'
 
 const StartGameButton: FC = () => {
-
     const { currentTeam, startGame } = useContext(FirebaseContext)
     const [isGameRunning, setGameRunning] = useState<boolean>(false)
 
@@ -12,14 +10,17 @@ const StartGameButton: FC = () => {
         setGameRunning(!!currentTeam)
     }, [currentTeam])
 
-
     if (isGameRunning) {
         return <></>
     }
     return (
-        <Button onClick={() => startGame()} variant="contained" color="primary">
-            start game
-        </Button>
+        <button
+            onClick={() => startGame()}
+            type="button"
+            className="border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline"
+        >
+            Primary
+        </button>
     )
 }
 

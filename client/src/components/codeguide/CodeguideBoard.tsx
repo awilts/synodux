@@ -14,7 +14,6 @@ const CodeguideBoard: FC = () => {
     }
 
     return (
-        <Grid item xs={8}>
             <Box borderLeft={1} borderRight={1}>
                 <h1 className="font-sans text-xl font-bold">{titelText}</h1>
                 <div className="grid grid-cols-4">
@@ -24,7 +23,6 @@ const CodeguideBoard: FC = () => {
                         ))}
                 </div>
             </Box>
-        </Grid>
     )
 }
 
