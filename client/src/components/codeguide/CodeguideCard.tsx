@@ -1,7 +1,7 @@
 import React, { FC, useContext, useEffect, useState } from 'react'
 import { Word } from '../../types/Word'
 import Card from '@material-ui/core/Card'
-import { CardContent, createStyles, Grid, Theme } from '@material-ui/core'
+import { CardContent, createStyles, Theme } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import { CardColor } from '../../types/CardColor'
@@ -39,18 +39,16 @@ const CodeguideCard: FC<Props> = ({ word }) => {
     const color = word.team
 
     return (
-        <Grid item xs={6} sm={3}>
-            <Card
-                onClick={() => voteForWord(word)}
-                className={clsx(classes.card, {
-                    [classes.blue]: color === CardColor.blue,
-                    [classes.red]: color === CardColor.red,
-                })}
-            >
-                <AvatarBar playersToDisplay={playersOnThisCard} />
-                <CardContent>{word.text}</CardContent>
-            </Card>
-        </Grid>
+        <Card
+            onClick={() => voteForWord(word)}
+            className={clsx(classes.card, {
+                [classes.blue]: color === CardColor.blue,
+                [classes.red]: color === CardColor.red,
+            })}
+        >
+            <AvatarBar playersToDisplay={playersOnThisCard} />
+            <CardContent>{word.text}</CardContent>
+        </Card>
     )
 }
 

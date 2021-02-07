@@ -17,7 +17,7 @@ const CodeguideBoard: FC = () => {
         <Grid item xs={8}>
             <Box borderLeft={1} borderRight={1}>
                 <h1 className="font-sans text-xl font-bold">{titelText}</h1>
-                <div className="flex flex-wrap: wrap">
+                <div className="grid grid-cols-4">
                     {words &&
                         words.map(word => (
                             <CodeguideCard key={word.boardId} word={word} />
