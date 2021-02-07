@@ -1,5 +1,4 @@
 import React, { FC, useContext } from 'react'
-import { Box, Grid } from '@material-ui/core'
 import CodeguideCard from './CodeguideCard'
 import { FirebaseContext } from '../FirebaseContextProvider'
 
@@ -14,15 +13,15 @@ const CodeguideBoard: FC = () => {
     }
 
     return (
-            <Box borderLeft={1} borderRight={1}>
+            <div>
                 <h1 className="font-sans text-xl font-bold">{titelText}</h1>
-                <div className="grid grid-cols-4">
+                <div className="grid grid-cols-4 bg-">
                     {words &&
                         words.map(word => (
                             <CodeguideCard key={word.boardId} word={word} />
                         ))}
                 </div>
-            </Box>
+            </div>
     )
 }
 

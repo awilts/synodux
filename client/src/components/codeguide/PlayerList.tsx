@@ -1,6 +1,5 @@
-import React, { FC, useContext, useEffect, useState } from 'react'
+import { FC, useContext, useEffect, useState } from 'react'
 import PlayerCard from './PlayerCard'
-import { Button } from '@material-ui/core'
 import HintList from './HintList'
 import { FirebaseContext } from '../FirebaseContextProvider'
 import { Player } from '../../types/Player'
@@ -31,14 +30,16 @@ const PlayerList: FC<Props> = ({ team }) => {
                         <PlayerCard player={player} key={player.id} />
                     ))}
             </div>
-            <Button
-                onClick={() => joinTeam(thisPlayer, team)}
-                variant="contained"
-                color="primary"
-                disabled={isPlayerInLobby}
-            >
-                Join Team
-            </Button>
+            {!isPlayerInLobby && (
+                <button
+                    onClick={() => joinTeam(thisPlayer, team)}
+                    type="button"
+                    className="border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline "
+                >
+                    Join Team
+                </button>
+            )}
+
             <HintList team={team} />
         </>
     )

@@ -1,5 +1,4 @@
 import React, { FC, useContext } from 'react'
-import Grid from '@material-ui/core/Grid'
 import HintCard from './HintCard'
 import { FirebaseContext } from '../FirebaseContextProvider'
 
@@ -16,10 +15,10 @@ const HintList: FC<Props> = ({ team }) => {
             .filter(hint => hint.team === team)
             .map(hint => <HintCard hint={hint} key={hint.id} />)
     return (
-        <Grid container spacing={1}>
-            <h3>Hints</h3>
+        <>
+            <h3>Hints: </h3>
             {Hints}
-        </Grid>
+        </>
     )
 }
 
