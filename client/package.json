@@ -18,7 +18,7 @@
         "firebase": "^8.2.5",
         "firebaseui": "^4.7.1",
         "lodash": "^4.17.20",
-        "postcss": "^7.0.35",
+        "postcss": "^7.0.36",
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
         "react-scripts": "4.0.1",
